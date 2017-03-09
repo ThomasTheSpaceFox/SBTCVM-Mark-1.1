@@ -8,7 +8,7 @@ import libttext
 #tasminput=open(tasmfile)
 import fileinput
 
-print("TDA-asm version 1.1.0 starting")
+print("SBTCVM-asm version 1.1.0 starting")
 
 assmoverrun=729
 instcnt=0
@@ -220,5 +220,5 @@ for linen in fileinput.input():
 		print("ERROR!: assembler has exceded rom size limit of 729!")
 
 
-print ("TDA Mk1.1 assembly file \"" + assmflename + "\" has been compiled into: \"" + outfile + "\"")
+print ("SBTCVM Mk1.1 assembly file \"" + assmflename + "\" has been compiled into: \"" + outfile + "\"")
 print ("total instructions: " + str(instcnt))

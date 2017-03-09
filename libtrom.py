@@ -20,7 +20,7 @@ exconf=compile(scconf.read(), 'BOOTUP.CFG', 'exec')
 exec(exconf)
 
 #load TROMS from TROM files to respective dictionaries
-
+print "libtrom: parsing TROMs into dictionaries..."
 AROM= {}
 TROMAfile=open(TROMA, "r")
 linecnt=1

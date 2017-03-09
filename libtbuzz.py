@@ -4,7 +4,7 @@ import time
 import os
 import array
 import math
-
+import libbaltcalc
 
 
 #poor man's wave generator :p
@@ -29,7 +29,7 @@ def mk1buzz(code):
 	#print freqcode
 	baserep=160
 	repjump=2
-	magn=libTDAcommon.buzznumstruct5(freqcode)
+	magn=libTDAcommon.buzznumstruct5(libbaltcalc.BTINVERT(freqcode))
 	magn=(243 - magn + 20)
 	
 	repadd=(repjump * magn)

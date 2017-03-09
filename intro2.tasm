@@ -1,19 +1,20 @@
 #newer (revised) intro
 #replaces INTRO1.TROM
-buzzer|-+++++
-buzzer|0+++++
-buzzer|-+++++
-buzzer|0+++++
-buzzer|-+++++
-buzzer|0+++++
-buzzer|-+++++
-buzzer|0+++++
+buzzer|-0++++
+buzzer|00++++
+buzzer|-0++++
+buzzer|00++++
+buzzer|-0++++
+buzzer|00++++
+buzzer|-0++++
+buzzer|00++++
 #First TUI screen: title art
 TTYclear
 textstart
 * * * *-- *   *-- *-* *-*-* *--
 * * * *-  *   *   * * * * * *- 
 *-*-* *-- *-- *-- *-* * * * *--
+
             TO:
 
           SBTCVM:

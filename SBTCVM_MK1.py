@@ -17,6 +17,8 @@ import libtbuzz
 import libtstcg1 as stcg
 pygame.display.init()
 
+print "SBTCVM Mark 1.1 Starting up..."
+
 windowicon=pygame.image.load(os.path.join('GFX', 'icon64.png'))
 pygame.display.set_icon(windowicon)
 
@@ -126,6 +128,7 @@ EXECCHANGE=0
 EXECADDR="------"
 REG1="000000"
 REG2="000000"
+print "SBTCVM Mark 1.1 Ready. the VM will now begin."
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
 	curdata=(libtrom.tromreaddata(EXECADDR,ROMFILE))
@@ -226,9 +229,9 @@ while stopflag==0:
 		REG2 = (libbaltcalc.BTINVERT(REG2))
 	#add both registers, load awnser into REG1
 	elif curinst=="-0-+":
-		print REG1
-		print REG2
-		print "bla"
+		#print REG1
+		#print REG2
+		#print "bla"
 		REG1 = (libTDAcommon.trunkto6(libbaltcalc.btadd(REG1, REG2)))
 	#sub both registers, load awnser into REG1
 	elif curinst=="-00-":
@@ -541,6 +544,29 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_RETURN:
 					evhappenflg2=1
 					break
+				if event.type == KEYDOWN and event.key == K_ESCAPE:
+					evhappenflg2=1
+					stopflag=1
+					abt=libTDAcommon.abtslackline(abt, "")
+					abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
+					abt=libTDAcommon.abtslackline(abt, "User stop.")
+					break
+				if event.type == KEYDOWN and event.key == K_F7:
+					pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
+					pygame.image.save(MONODISP, (os.path.join('CAP', 'MONODISP-OUT.png')))
+					break
+				if event.type == KEYDOWN and event.key == K_F8:
+					pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT.png')))
+					break
+				if event.type == KEYDOWN and event.key == K_F10:
+					ramdmp=open((os.path.join('CAP', 'mem.dump.txt')), 'w')
+					ramdmp.write(str(RAMbank))
+					ramdmp.close()
+					break
+				if event.type == KEYDOWN and event.key == K_F2:
+					stepbystep=1
+					STEPLED=LEDGREENON
+					break
 		abt=libTDAcommon.abtslackline(abt, ("\n"))
 		USRWAIT=0
 	
@@ -558,6 +584,29 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_n:
 					evhappenflg2=1
 					break
+				if event.type == KEYDOWN and event.key == K_ESCAPE:
+					evhappenflg2=1
+					stopflag=1
+					abt=libTDAcommon.abtslackline(abt, "")
+					abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
+					abt=libTDAcommon.abtslackline(abt, "User stop.")
+					break
+				if event.type == KEYDOWN and event.key == K_F7:
+					pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
+					pygame.image.save(MONODISP, (os.path.join('CAP', 'MONODISP-OUT.png')))
+					break
+				if event.type == KEYDOWN and event.key == K_F8:
+					pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT.png')))
+					break
+				if event.type == KEYDOWN and event.key == K_F10:
+					ramdmp=open((os.path.join('CAP', 'mem.dump.txt')), 'w')
+					ramdmp.write(str(RAMbank))
+					ramdmp.close()
+					break
+				if event.type == KEYDOWN and event.key == K_F2:
+					stepbystep=1
+					STEPLED=LEDGREENON
+					break
 		abt=libTDAcommon.abtslackline(abt, ("\n"))
 		USRYN=0
 	
@@ -573,6 +622,7 @@ while stopflag==0:
 					break
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
 					stopflag=1
+					
 					abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
 					abt=libTDAcommon.abtslackline(abt, "User stop.")
 					evhappenflg2=1
