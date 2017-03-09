@@ -1,0 +1,7 @@
+null|----0+
+dumpreg1
+setreg1|000+00
+setinst|------
+goto|------
+dumpreg1
+stop

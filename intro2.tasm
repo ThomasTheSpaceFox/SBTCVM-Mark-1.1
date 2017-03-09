@@ -1,0 +1,44 @@
+#newer (revised) intro
+#replaces INTRO1.TROM
+buzzer|-+++++
+buzzer|0+++++
+buzzer|-+++++
+buzzer|0+++++
+buzzer|-+++++
+buzzer|0+++++
+buzzer|-+++++
+buzzer|0+++++
+#First TUI screen: title art
+TTYclear
+textstart
+* * * *-- *   *-- *-* *-*-* *--
+* * * *-  *   *   * * * * * *- 
+*-*-* *-- *-- *-- *-* * * * *--
+            TO:
+
+          SBTCVM:
+
+Simple.
+Balanced.
+Ternary.
+Computer.
+Virtual.
+Machine.
+
+textstop
+userwait
+TTYclear
+textstart
+Hello :)
+This is SBTCVM-Mark 1.1
+This VM is Balanced ternary.
+
+TROM compiled using SBTCVM-asm.py
+
+Find help the in DOCS directory.
+
+Now lets get to the cool stuff :D
+textstop
+userwait
+TTYclear
+gotoB|------
