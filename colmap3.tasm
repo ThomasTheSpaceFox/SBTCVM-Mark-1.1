@@ -1,0 +1,15 @@
+#This is a 11 instruction 6 trit color map demo.
+setreg1|------
+setcolorreg|------|main
+colorpixel|------|drawpixel
+setreg2|++++++
+gotodataif|>loopexit
+setreg2|00000+
+add
+textstart
+hi
+textstop
+setdata|>main
+setdata|>drawpixel
+gotodata|>main
+stop|000000|loopexit

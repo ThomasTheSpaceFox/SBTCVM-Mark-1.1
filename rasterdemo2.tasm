@@ -16,7 +16,7 @@ needs 2 CPU instructions per pixel.
 textstop
 userwait
 TTYclear
-monofill|00000-
+monofill|00000-|gxq
 monopixel|00000+
 monopixel|------
 monopixel|-0---0
@@ -77,4 +77,3 @@ setcolorreg|-0-0-0
 colorline|++-+0-
 
 userwait
-stop
