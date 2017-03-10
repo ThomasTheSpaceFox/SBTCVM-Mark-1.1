@@ -9,7 +9,7 @@ it features Raster graphics, a TTY system, various debugging features,
 
 Specifications:
 36x27 character TUI with 6-trit text encoding.
-external assembler with builtin text conversion.
+external assembler with built-in text conversion.
 
 
 See the "using-the-VM" directory for general user help.
