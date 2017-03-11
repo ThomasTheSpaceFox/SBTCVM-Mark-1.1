@@ -74,7 +74,8 @@ scconf=open('BOOTUP.CFG', 'r')
 exconf=compile(scconf.read(), 'BOOTUP.CFG', 'exec')
 
 tuibig=1
-
+logromexit=0
+logIOexit=0
 exec(exconf)
 #print BOOTUPFILE
 
@@ -558,14 +559,16 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_F8:
 					pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT.png')))
 					break
-				if event.type == KEYDOWN and event.key == K_F10:
-					ramdmp=open((os.path.join('CAP', 'mem.dump.txt')), 'w')
-					ramdmp.write(str(RAMbank))
-					ramdmp.close()
-					break
 				if event.type == KEYDOWN and event.key == K_F2:
 					stepbystep=1
 					STEPLED=LEDGREENON
+					break
+				if event.type == KEYDOWN and event.key == K_F10:
+					ramdmp=open((os.path.join('CAP', 'IOBUSman.dmp')),  'w')
+					for IOitm in RAMbank:
+						ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
+					ramdmp.close()
+					libtrom.manualdumptroms()
 					break
 		abt=libTDAcommon.abtslackline(abt, ("\n"))
 		USRWAIT=0
@@ -598,14 +601,16 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_F8:
 					pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT.png')))
 					break
-				if event.type == KEYDOWN and event.key == K_F10:
-					ramdmp=open((os.path.join('CAP', 'mem.dump.txt')), 'w')
-					ramdmp.write(str(RAMbank))
-					ramdmp.close()
-					break
 				if event.type == KEYDOWN and event.key == K_F2:
 					stepbystep=1
 					STEPLED=LEDGREENON
+					break
+				if event.type == KEYDOWN and event.key == K_F10:
+					ramdmp=open((os.path.join('CAP', 'IOBUSman.dmp')),  'w')
+					for IOitm in RAMbank:
+						ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
+					ramdmp.close()
+					libtrom.manualdumptroms()
 					break
 		abt=libTDAcommon.abtslackline(abt, ("\n"))
 		USRYN=0
@@ -639,6 +644,13 @@ while stopflag==0:
 					STEPLED=LEDGREENOFF
 					evhappenflg2=1
 					break
+				if event.type == KEYDOWN and event.key == K_F10:
+					ramdmp=open((os.path.join('CAP', 'IOBUSman.dmp')),  'w')
+					for IOitm in RAMbank:
+						ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
+					ramdmp.close()
+					libtrom.manualdumptroms()
+					break
 				
 		
 	else:
@@ -657,9 +669,11 @@ while stopflag==0:
 				pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT.png')))
 				break
 			if event.type == KEYDOWN and event.key == K_F10:
-				ramdmp=open((os.path.join('CAP', 'mem.dump.txt')), 'w')
-				ramdmp.write(str(RAMbank))
+				ramdmp=open((os.path.join('CAP', 'IOBUSman.dmp')),  'w')
+				for IOitm in RAMbank:
+					ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 				ramdmp.close()
+				libtrom.manualdumptroms()
 				break
 			if event.type == KEYDOWN and event.key == K_F2:
 				stepbystep=1
@@ -760,6 +774,15 @@ while stopflag==0:
 	evhappenflg2=0
 
 
+if logromexit==1:
+	print "logging TROM MEMORY into CAP dir..."
+	libtrom.dumptroms()
+if logIOexit==1:
+	print "logging final IObus state into CAP dir..."
+	ramdmp=open((os.path.join('CAP', 'IOBUS.dmp')),  'w')
+	for IOitm in RAMbank:
+		ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
+	ramdmp.close()
 while evhappenflg2==0:
 		time.sleep(.1)
 		for event in pygame.event.get():
