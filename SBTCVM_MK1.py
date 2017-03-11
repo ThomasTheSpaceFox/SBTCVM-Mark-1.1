@@ -1,20 +1,11 @@
 #!/usr/bin/env python
-import libtfont0
 import libtrom
-import pygame.event
-import pygame.key
-import pygame.display
-import pygame.image
-import pygame.mixer
 import pygame
 from pygame.locals import *
 import time
 import os
-import libTDAcommon
+import libSBTCVM
 import libbaltcalc
-import libttext
-import libtbuzz
-import libtstcg1 as stcg
 pygame.display.init()
 
 print "SBTCVM Mark 1.1 Starting up..."
@@ -56,18 +47,18 @@ pygame.mixer.init(frequency=22050 , size=-16)
 
 extradraw=0
 
-wavsp=libtbuzz.mk1buzz("0-----")
+wavsp=libSBTCVM.mk1buzz("0-----")
 snf=pygame.mixer.Sound(wavsp)
 snf.play()
 
 #config defaults
 TROMA="BOOTUP.TROM"
 #these are dud roms full of soft stops
-TROMB=("DEFAULTdud.TROM")
-TROMC=("DEFAULTdud.TROM")
-TROMD=("DEFAULTdud.TROM")
-TROME=("DEFAULTdud.TROM")
-TROMF=("DEFAULTdud.TROM")
+TROMB=("DEFAULT.TROM")
+TROMC=("DEFAULT.TROM")
+TROMD=("DEFAULT.TROM")
+TROME=("DEFAULT.TROM")
+TROMF=("DEFAULT.TROM")
 CPUWAIT=(0.01)
 stepbystep=0
 scconf=open('BOOTUP.CFG', 'r')
@@ -94,8 +85,8 @@ else:
 
 
 
-stcgsurf=pygame.Surface((324, 243))
-stcgsurf.fill((127, 127, 127))
+libSBTCVMsurf=pygame.Surface((324, 243))
+libSBTCVMsurf.fill((127, 127, 127))
 #RAMBANK startup begin
 RAMbank = {}
 
@@ -105,7 +96,7 @@ screensurf.blit(vmbg, (0, 0))
 pygame.display.update()
 
 #ramstart
-for ramadr in libTDAcommon.calmlst:
+for ramadr in libSBTCVM.calmlst:
 	#print "foobar"
 	ramadr=ramadr.replace("\n", "")
 	RAMbank[ramadr] = "000000"
@@ -169,23 +160,23 @@ while stopflag==0:
 	#	pixcnt1 += pixjmp
 	#pixcnt1=40
 	lineq=0
-	stcgsurf.fill((127, 127, 127))
+	libSBTCVMsurf.fill((127, 127, 127))
 	for fnx in abt:
 		fnx=fnx.replace('\n', '')
 		colq=0
 		for qlin in fnx:
 			#print qlin
-			charq=libttext.charlookupdict.get(qlin)
+			charq=libSBTCVM.charlookupdict.get(qlin)
 			#print charq
-			stcg.charblit(stcgsurf, colq, lineq, charq)
+			libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
 			colq +=1
 		lineq +=1
-	#screensurf.blit(stcgsurf, (45, 40))
+	#screensurf.blit(libSBTCVMsurf, (45, 40))
 	if tuibig==0:
-		screensurf.blit(stcgsurf, (45, 40))
+		screensurf.blit(libSBTCVMsurf, (45, 40))
 	else:
-		bigstcg=pygame.transform.scale(stcgsurf, (648, 486))
-		screensurf.blit(bigstcg, (0, 0))
+		biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
+		screensurf.blit(biglibSBTCVM, (0, 0))
 	#aaaaannnnddd update display! :D
 	pygame.display.update()
 	
@@ -233,16 +224,16 @@ while stopflag==0:
 		#print REG1
 		#print REG2
 		#print "bla"
-		REG1 = (libTDAcommon.trunkto6(libbaltcalc.btadd(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btadd(REG1, REG2)))
 	#sub both registers, load awnser into REG1
 	elif curinst=="-00-":
-		REG1 = (libTDAcommon.trunkto6(libbaltcalc.btsub(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btsub(REG1, REG2)))
 	#mul both registers, load awnser into REG1
 	elif curinst=="-000":
-		REG1 = (libTDAcommon.trunkto6(libbaltcalc.btmul(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btmul(REG1, REG2)))
 	#dev both registers, load awnser into REG1
 	elif curinst=="-00+":
-		REG1 = (libTDAcommon.trunkto6(libbaltcalc.btdev(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btdev(REG1, REG2)))
 	#set REG1
 	elif curinst=="-0+-":
 		REG1 = curdata
@@ -258,9 +249,9 @@ while stopflag==0:
 		libtrom.tromsetdata(curdata, REG1, ROMFILE)
 	#color draw
 	elif curinst=="0---":
-		jx=libTDAcommon.drawnumstruct3((curdata[0] + curdata[1] + curdata[2]))
-		jy=libTDAcommon.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
-		RGBcol=libTDAcommon.colorfind(colorreg)
+		jx=libSBTCVM.drawnumstruct3((curdata[0] + curdata[1] + curdata[2]))
+		jy=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
+		RGBcol=libSBTCVM.colorfind(colorreg)
 		#print monocol
 		pygame.draw.line(COLORDISP, RGBcol, [jx, jy], [jx, jy], 1)
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
@@ -268,7 +259,7 @@ while stopflag==0:
 	elif curinst=="0--0":
 		colorreg=curdata
 	elif curinst=="0--+":
-		RGBcol=libTDAcommon.colorfind(curdata)
+		RGBcol=libSBTCVM.colorfind(curdata)
 		#print monocol
 		COLORDISP.fill(RGBcol)
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
@@ -276,38 +267,38 @@ while stopflag==0:
 	elif curinst=="0-0-":
 		colvectorreg=curdata
 	elif curinst=="0-00":
-		jx=libTDAcommon.drawnumstruct3((curdata[0] + curdata[1] + curdata[2]))
-		jy=libTDAcommon.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
-		kx=libTDAcommon.drawnumstruct3((colvectorreg[0] + colvectorreg[1] + colvectorreg[2]))
-		ky=libTDAcommon.drawnumstruct3((colvectorreg[3] + colvectorreg[4] + colvectorreg[5]))
-		RGBcol=libTDAcommon.colorfind(colorreg)
+		jx=libSBTCVM.drawnumstruct3((curdata[0] + curdata[1] + curdata[2]))
+		jy=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
+		kx=libSBTCVM.drawnumstruct3((colvectorreg[0] + colvectorreg[1] + colvectorreg[2]))
+		ky=libSBTCVM.drawnumstruct3((colvectorreg[3] + colvectorreg[4] + colvectorreg[5]))
+		RGBcol=libSBTCVM.colorfind(colorreg)
 		#print monocol
 		pygame.draw.line(COLORDISP, RGBcol, [jx, jy], [kx, ky], 1)
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#color draw rect
 	elif curinst=="0-0+":
-		jx=libTDAcommon.drawnumstruct3((curdata[0] + curdata[1] + curdata[2]))
-		jy=libTDAcommon.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
-		kx=libTDAcommon.drawnumstruct3((colvectorreg[0] + colvectorreg[1] + colvectorreg[2]))
-		ky=libTDAcommon.drawnumstruct3((colvectorreg[3] + colvectorreg[4] + colvectorreg[5]))
-		RGBcol=libTDAcommon.colorfind(colorreg)
+		jx=libSBTCVM.drawnumstruct3((curdata[0] + curdata[1] + curdata[2]))
+		jy=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
+		kx=libSBTCVM.drawnumstruct3((colvectorreg[0] + colvectorreg[1] + colvectorreg[2]))
+		ky=libSBTCVM.drawnumstruct3((colvectorreg[3] + colvectorreg[4] + colvectorreg[5]))
+		RGBcol=libSBTCVM.colorfind(colorreg)
 		#print monocol
 		#pygame.draw.line(COLORDISP, RGBcol, [jx, jy], [kx, ky], 1)
-		COLORDISP.fill(RGBcol, (libTDAcommon.makerectbipoint(jx, jy, kx, ky)))
+		COLORDISP.fill(RGBcol, (libSBTCVM.makerectbipoint(jx, jy, kx, ky)))
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	
 	#mono draw
 	#mono draw pixel
 	elif curinst=="0-+-":
-		jx=libTDAcommon.drawnumstruct2((curdata[0] + curdata[1]))
-		jy=libTDAcommon.drawnumstruct2((curdata[2] + curdata[3]))
-		monocol=(int(libTDAcommon.dollytell((curdata[4] + curdata[5]))))
+		jx=libSBTCVM.drawnumstruct2((curdata[0] + curdata[1]))
+		jy=libSBTCVM.drawnumstruct2((curdata[2] + curdata[3]))
+		monocol=(int(libSBTCVM.dollytell((curdata[4] + curdata[5]))))
 		#print monocol
 		pygame.draw.line(MONODISP, (monocol, monocol, monocol), [jx, jy], [jx, jy], 1)
 		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#mono fill
 	elif curinst=="0-+0":
-		monocol=(int(libTDAcommon.dollytell((curdata[4] + curdata[5]))))
+		monocol=(int(libSBTCVM.dollytell((curdata[4] + curdata[5]))))
 		#print monocol
 		MONODISP.fill((monocol, monocol, monocol))
 		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
@@ -316,30 +307,30 @@ while stopflag==0:
 		monovectorreg=curdata
 	#draw mono line
 	elif curinst=="00--":
-		jx=libTDAcommon.drawnumstruct2((curdata[0] + curdata[1]))
-		jy=libTDAcommon.drawnumstruct2((curdata[2] + curdata[3]))
-		kx=libTDAcommon.drawnumstruct2((monovectorreg[0] + monovectorreg[1]))
-		ky=libTDAcommon.drawnumstruct2((monovectorreg[2] + monovectorreg[3]))
-		monocol=(int(libTDAcommon.dollytell((curdata[4] + curdata[5]))))
+		jx=libSBTCVM.drawnumstruct2((curdata[0] + curdata[1]))
+		jy=libSBTCVM.drawnumstruct2((curdata[2] + curdata[3]))
+		kx=libSBTCVM.drawnumstruct2((monovectorreg[0] + monovectorreg[1]))
+		ky=libSBTCVM.drawnumstruct2((monovectorreg[2] + monovectorreg[3]))
+		monocol=(int(libSBTCVM.dollytell((curdata[4] + curdata[5]))))
 		#print monocol
 		pygame.draw.line(MONODISP, (monocol, monocol, monocol), [jx, jy], [kx, ky], 1)
 		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#mono draw rect
 	elif curinst=="00-0":
-		jx=libTDAcommon.drawnumstruct2((curdata[0] + curdata[1]))
-		jy=libTDAcommon.drawnumstruct2((curdata[2] + curdata[3]))
-		kx=libTDAcommon.drawnumstruct2((monovectorreg[0] + monovectorreg[1]))
-		ky=libTDAcommon.drawnumstruct2((monovectorreg[2] + monovectorreg[3]))
-		monocol=(int(libTDAcommon.dollytell((curdata[4] + curdata[5]))))
+		jx=libSBTCVM.drawnumstruct2((curdata[0] + curdata[1]))
+		jy=libSBTCVM.drawnumstruct2((curdata[2] + curdata[3]))
+		kx=libSBTCVM.drawnumstruct2((monovectorreg[0] + monovectorreg[1]))
+		ky=libSBTCVM.drawnumstruct2((monovectorreg[2] + monovectorreg[3]))
+		monocol=(int(libSBTCVM.dollytell((curdata[4] + curdata[5]))))
 		#print monocol
 		#pygame.draw.line(MONODISP, (monocol, monocol, monocol), [jx, jy], [kx, ky], 1)
-		MONODISP.fill((monocol, monocol, monocol), (libTDAcommon.makerectbipoint(jx, jy, kx, ky)))
+		MONODISP.fill((monocol, monocol, monocol), (libSBTCVM.makerectbipoint(jx, jy, kx, ky)))
 		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#SHUTDOWN VM
 	elif curinst=="000-":
 		stopflag=1
-		abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
-		abt=libTDAcommon.abtslackline(abt, "soft stop.")
+		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+		abt=libSBTCVM.abtslackline(abt, "soft stop.")
 	#NULL INSTRUCTION (DOES NOTHING) USE WHEN YOU WISH TO DO NOTHING :p
 	elif curinst=="0000":
 		print("NULLinstruction")
@@ -367,12 +358,12 @@ while stopflag==0:
 		time.sleep(( waitmagn))
 	#asks user if goto to adress is desired
 	elif curinst=="0+--":
-		abt=libTDAcommon.abtslackline(abt, ("GOTO: (" + curdata + ") Y or N?"))
+		abt=libSBTCVM.abtslackline(abt, ("GOTO: (" + curdata + ") Y or N?"))
 		USRYN=1
 		extradraw=1	
 	#user wait
 	elif curinst=="0+-0":
-		abt=libTDAcommon.abtslackline(abt, ("Press enter to continue."))
+		abt=libSBTCVM.abtslackline(abt, ("Press enter to continue."))
 		USRWAIT=1
 		extradraw=1	
 	#TTY clear
@@ -461,19 +452,19 @@ while stopflag==0:
 	#dump register 1 to TTY
 	elif curinst=="++0+":
 		print ("REG1 DUMP:" + REG1)
-		abt=libTDAcommon.abtslackline(abt, ("REG1 DUMP:" + REG1))
+		abt=libSBTCVM.abtslackline(abt, ("REG1 DUMP:" + REG1))
 	#dump Register 2 to TTY
 	elif curinst=="+++-":
 		print ("REG2 DUMP:" + REG2)
-		abt=libTDAcommon.abtslackline(abt, ("REG2 DUMP:" + REG2))
+		abt=libSBTCVM.abtslackline(abt, ("REG2 DUMP:" + REG2))
 	#tty write port (direct)
 	elif curinst=="+++0":
-		abt=libTDAcommon.abtcharblit(abt, (libttext.charcodelook(curdata)))
+		abt=libSBTCVM.abtcharblit(abt, (libSBTCVM.charcodelook(curdata)))
 	#Buzzer (direct)
 	elif curinst=="++++":
 		snf.stop()
 		#print "derp"
-		wavsp=libtbuzz.mk1buzz(curdata)
+		wavsp=libSBTCVM.mk1buzz(curdata)
 		snf=pygame.mixer.Sound(wavsp)
 		snf.play()
 		timechop=curdata[0]
@@ -518,24 +509,24 @@ while stopflag==0:
 		#	pixcnt1 += pixjmp
 		#pixcnt1=40
 		lineq=0
-		stcgsurf.fill((127, 127, 127))
+		libSBTCVMsurf.fill((127, 127, 127))
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0
 			for qlin in fnx:
 				#print qlin
-				charq=libttext.charlookupdict.get(qlin)
+				charq=libSBTCVM.charlookupdict.get(qlin)
 				#print charq
-				stcg.charblit(stcgsurf, colq, lineq, charq)
+				libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
 				colq +=1
 			lineq +=1
 		if tuibig==0:
-			screensurf.blit(stcgsurf, (45, 40))
+			screensurf.blit(libSBTCVMsurf, (45, 40))
 		else:
-			bigstcg=pygame.transform.scale(stcgsurf, (648, 486))
-			screensurf.blit(bigstcg, (0, 0))
+			biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
+			screensurf.blit(biglibSBTCVM, (0, 0))
 		pygame.display.update()
-		#abt=stcg.abtslackline(abt, jline)
+		#abt=libSBTCVM.abtslackline(abt, jline)
 		extradraw=0
 	if USRWAIT==1:
 		evhappenflg2=0
@@ -548,9 +539,9 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
 					evhappenflg2=1
 					stopflag=1
-					abt=libTDAcommon.abtslackline(abt, "")
-					abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
-					abt=libTDAcommon.abtslackline(abt, "User stop.")
+					abt=libSBTCVM.abtslackline(abt, "")
+					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+					abt=libSBTCVM.abtslackline(abt, "User stop.")
 					break
 				if event.type == KEYDOWN and event.key == K_F7:
 					pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
@@ -570,7 +561,7 @@ while stopflag==0:
 					ramdmp.close()
 					libtrom.manualdumptroms()
 					break
-		abt=libTDAcommon.abtslackline(abt, ("\n"))
+		abt=libSBTCVM.abtslackline(abt, ("\n"))
 		USRWAIT=0
 	
 	
@@ -590,9 +581,9 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
 					evhappenflg2=1
 					stopflag=1
-					abt=libTDAcommon.abtslackline(abt, "")
-					abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
-					abt=libTDAcommon.abtslackline(abt, "User stop.")
+					abt=libSBTCVM.abtslackline(abt, "")
+					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+					abt=libSBTCVM.abtslackline(abt, "User stop.")
 					break
 				if event.type == KEYDOWN and event.key == K_F7:
 					pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
@@ -612,7 +603,7 @@ while stopflag==0:
 					ramdmp.close()
 					libtrom.manualdumptroms()
 					break
-		abt=libTDAcommon.abtslackline(abt, ("\n"))
+		abt=libSBTCVM.abtslackline(abt, ("\n"))
 		USRYN=0
 	
 	#print(EXECADDR)
@@ -628,8 +619,8 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
 					stopflag=1
 					
-					abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
-					abt=libTDAcommon.abtslackline(abt, "User stop.")
+					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+					abt=libSBTCVM.abtslackline(abt, "User stop.")
 					evhappenflg2=1
 					break
 				if event.type == KEYDOWN and event.key == K_F7:
@@ -658,8 +649,8 @@ while stopflag==0:
 		for event in pygame.event.get():
 			if event.type == KEYDOWN and event.key == K_ESCAPE:
 				stopflag=1
-				abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
-				abt=libTDAcommon.abtslackline(abt, "User stop.")
+				abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+				abt=libSBTCVM.abtslackline(abt, "User stop.")
 				break
 			if event.type == KEYDOWN and event.key == K_F7:
 				pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
@@ -688,19 +679,19 @@ while stopflag==0:
 	
 	if curinst=="":
 		stopflag=1
-		abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
-		abt=libTDAcommon.abtslackline(abt, "End Of Rom.")
+		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+		abt=libSBTCVM.abtslackline(abt, "End Of Rom.")
 	if EXECADDR=="+------":
 		stopflag=1
-		abt=libTDAcommon.abtslackline(abt, "VM SYSHALT:")
-		abt=libTDAcommon.abtslackline(abt, "End Of RomBus.")
+		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+		abt=libSBTCVM.abtslackline(abt, "End Of RomBus.")
 	EXECADDR=libbaltcalc.btadd(EXECADDR, "+")
 	if EXECCHANGE==1:
 		EXECCHANGE=0
 		#print("ding")
 		EXECADDR=EXECADDRNEXT
 	if stopflag==1:
-		abt=libTDAcommon.abtslackline(abt, "Press enter to exit.")
+		abt=libSBTCVM.abtslackline(abt, "Press enter to exit.")
 		screensurf.fill((0,127,255))
 		screensurf.blit(vmbg, (0, 0))
 	
@@ -740,29 +731,29 @@ while stopflag==0:
 		#	pixcnt1 += pixjmp
 		#pixcnt1=38
 		lineq=0
-		stcgsurf.fill((127, 127, 127))
+		libSBTCVMsurf.fill((127, 127, 127))
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0
 			for qlin in fnx:
 				#print qlin
-				charq=libttext.charlookupdict.get(qlin)
+				charq=libSBTCVM.charlookupdict.get(qlin)
 				#print charq
-				stcg.charblit(stcgsurf, colq, lineq, charq)
+				libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
 				colq +=1
 			lineq +=1
-		#screensurf.blit(stcgsurf, (45, 40))
+		#screensurf.blit(libSBTCVMsurf, (45, 40))
 		if tuibig==0:
-			screensurf.blit(stcgsurf, (45, 40))
+			screensurf.blit(libSBTCVMsurf, (45, 40))
 		else:
-			bigstcg=pygame.transform.scale(stcgsurf, (648, 486))
-			screensurf.blit(bigstcg, (0, 0))
+			biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
+			screensurf.blit(biglibSBTCVM, (0, 0))
 	
 	pygame.display.update()
 	#clear buffer secion of IObus
 	#this means: DONT USE THE BUFFER SECTION OF THE IObus AS RAM :|
 	#chklist = open("ORDEREDLIST6REGISTER.txt")
-	#for ramadr in libTDAcommon.chklist:
+	#for ramadr in libSBTCVM.chklist:
 	#	#print "foobar"
 	#	ramadr=ramadr.replace("\n", "")
 	#	RAMbank[ramadr] = "000000"

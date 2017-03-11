@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import libTDAcommon
+import libSBTCVM
 import time
 import os
 import array
@@ -29,7 +29,7 @@ def mk1buzz(code):
 	#print freqcode
 	baserep=160
 	repjump=2
-	magn=libTDAcommon.buzznumstruct5(libbaltcalc.BTINVERT(freqcode))
+	magn=libSBTCVM.buzznumstruct5(libbaltcalc.BTINVERT(freqcode))
 	magn=(243 - magn + 20)
 	
 	repadd=(repjump * magn)

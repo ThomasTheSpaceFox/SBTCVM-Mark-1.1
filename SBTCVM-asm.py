@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-import libTDAcommon
+import libSBTCVM
 import libbaltcalc
-import libttext
 import sys
 #tasmfile="assmtst1.tasm"
 
@@ -18,7 +17,7 @@ outfile="assmout.trom"
 
 def getlinetern(line):
 	line=(line-364)
-	tline=libTDAcommon.trunkto6(libbaltcalc.DECTOBT(line))
+	tline=libSBTCVM.trunkto6(libbaltcalc.DECTOBT(line))
 	return tline
 
 
@@ -48,7 +47,7 @@ for linen in fileinput.input():
 	gtflag=1
 	if txtblk==1:
 		for f in lined:
-			#outn.write("+++0" + (libttext.charlook(f)) + "\n")
+			#outn.write("+++0" + (libSBTCVM.charlook(f)) + "\n")
 			instcnt += 1
 	elif instword=="textstart":
 		txtblk=1
@@ -268,7 +267,7 @@ for linen in fileinput.input():
 	
 	if txtblk==1:
 		for f in lined:
-			outn.write("+++0" + (libttext.charlook(f)) + "\n")
+			outn.write("+++0" + (libSBTCVM.charlook(f)) + "\n")
 			instcnt += 1
 	elif instword=="textstart":
 		txtblk=1

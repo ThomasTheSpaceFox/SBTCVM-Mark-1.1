@@ -8,7 +8,7 @@ import pygame.mixer
 import pygame
 from pygame.locals import *
 import time
-import libttext
+import libSBTCVM
 pygame.font.init()
 simplefont = pygame.font.SysFont(None, 16)
 
@@ -36,11 +36,11 @@ def abtcharblit(receveabtb, charblit):
 def charblit(chsurface, colx, liney, charcode):
 	colx=(colx*9)
 	liney=(liney*9)
-	glifcode=libttext.charcodedict.get(charcode)
+	glifcode=libSBTCVM.charcodedict.get(charcode)
 	#print glifcode
-	gliffile=(libttext.chargliph.get(glifcode))
+	gliffile=(libSBTCVM.chargliph.get(glifcode))
 	#print gliffile
-	glif=pygame.image.load(os.path.join(fondir, (libttext.chargliph.get(glifcode))))
+	glif=pygame.image.load(os.path.join(fondir, (libSBTCVM.chargliph.get(glifcode))))
 	chsurface.blit(glif, (colx, liney))
 	return chsurface
 

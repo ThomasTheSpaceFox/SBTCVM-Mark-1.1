@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-import libTDAcommon
+import libSBTCVM
 import os
 
-TROMB=("DEFAULTdud.TROM")
-TROMC=("DEFAULTdud.TROM")
-TROMD=("DEFAULTdud.TROM")
-TROME=("DEFAULTdud.TROM")
-TROMF=("DEFAULTdud.TROM")
+TROMB=("DEFAULT.TROM")
+TROMC=("DEFAULT.TROM")
+TROMD=("DEFAULT.TROM")
+TROME=("DEFAULT.TROM")
+TROMF=("DEFAULT.TROM")
 
 libtromready=0
 tromlogging=0
@@ -90,7 +90,7 @@ libtromready=1
 #read instruction function
 
 def tromreadinst(romaddr, ROMNAME):
-	line=libTDAcommon.numstruct(romaddr)
+	line=libSBTCVM.numstruct(romaddr)
 	#n = open(ROMNAME)
 	linecnt=1
 	#for fdelta in n:
@@ -127,7 +127,7 @@ def tromreadinst(romaddr, ROMNAME):
 #set data function
 
 def tromsetdata(romaddr, datax, ROMNAME):
-	line=libTDAcommon.numstruct(romaddr)
+	line=libSBTCVM.numstruct(romaddr)
 	global AROM
 	global BROM
 	global CROM
@@ -170,7 +170,7 @@ def tromsetdata(romaddr, datax, ROMNAME):
 
 
 def tromsetinst(romaddr, inst, ROMNAME):
-	line=libTDAcommon.numstruct(romaddr)
+	line=libSBTCVM.numstruct(romaddr)
 	global AROM
 	global BROM
 	global CROM
@@ -212,7 +212,7 @@ def tromsetinst(romaddr, inst, ROMNAME):
 
 	
 def tromreaddata(romaddr, ROMNAME):
-	line=libTDAcommon.numstruct(romaddr)
+	line=libSBTCVM.numstruct(romaddr)
 	#n = open(ROMNAME)
 	linecnt=1
 	if ROMNAME==TROMA:
