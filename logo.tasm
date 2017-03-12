@@ -1,25 +1,3 @@
-#newer (revised) intro
-#replaces INTRO1.TROM
-buzzer|-0++++
-buzzer|00++++
-buzzer|-0++++
-buzzer|00++++
-buzzer|-0++++
-buzzer|00++++
-buzzer|-0++++
-buzzer|00++++
-#First TUI screen: title art
-TTYclear
-
-#textstart
-#* * * *-- *   *-- *-* *-*-* *--
-#* * * *-  *   *   * * * * * *- 
-#*-*-* *-- *-- *-- *-* * * * *--
-#
-textstart
-
-Welcome To:
-textstop
 #SBTCVM LOGO DEMO. 
 #This uses the 27x27 6-trit color field. 
 #background dulled and simplified to shrink instruction size
@@ -110,47 +88,3 @@ colorpixel|+0+0-+
 colorpixel|++-000
 colorpixel|++-00+
 colorpixel|++00+-
-textstart
-
-Simple.
-textstop
-buzzer|-0++++
-textstart
-Balanced.
-textstop
-buzzer|-0++++
-textstart
-Ternary.
-textstop
-buzzer|-0++++
-textstart
-Computer.
-textstop
-buzzer|-0++++
-textstart
-Virtual.
-textstop
-buzzer|-0++++
-textstart
-Machine.
-
-textstop
-buzzer|-0++++
-userwait
-TTYclear
-textstart
-Hello :)
------------------
-|SBTCVM-Mark 1.1|
------------------
-This VM is Balanced ternary.
-
-TROM compiled using SBTCVM-asm.py
-
-Find help the in DOCS directory.
-
-Now lets get to the cool stuff :D
-textstop
-userwait
-TTYclear
-gotoB|------

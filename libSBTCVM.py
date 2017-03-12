@@ -104,6 +104,28 @@ def trunkto6(code):
 	#code=libbaltcalc.BTINVERT(code)
 	return((code[0]) + (code[1]) + (code[2]) + (code[3]) + (code[4]) + (code[5]))
 
+def trunkto6math(code):
+	codecnt=0
+	for fel in code:
+		codecnt +=1
+	if codecnt<6:
+		if codecnt==5:
+			return("0" + code)
+		if codecnt==4:
+			return("00" + code)
+		if codecnt==3:
+			return("000" + code)
+		if codecnt==2:
+			return("0000" + code)
+		if codecnt==1:
+			return("00000" + code)
+	#print code
+	#code=libbaltcalc.BTINVERT(code)
+	if codecnt>6:
+		print "integer overflow"
+		code="------"
+	return((code[0]) + (code[1]) + (code[2]) + (code[3]) + (code[4]) + (code[5]))
+
 #print(trunkto6("---0+++"))
 #print(trunkto6("--0+++"))
 #print(trunkto6("-0+++"))

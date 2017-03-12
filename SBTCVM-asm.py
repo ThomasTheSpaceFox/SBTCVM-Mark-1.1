@@ -235,10 +235,15 @@ for linen in fileinput.input():
 	else:
 		gtflag=0
 	if (len(linelist))==3 and gtflag==1:
+		if instword=="textstart":
+			instcnt += 1
 		gtox=gotoref((instcnt - 1), linelist[2])
 		gotoreflist.extend([gtox])
+		
+		
 		print ("found gotoref: \"" + linelist[2] + "\", at instruction:\"" + str((instcnt - 1)) + "\"")
-
+		if instword=="textstart":
+			instcnt -= 1
 #print gotoreflist
 instcnt=0
 firstloop=1

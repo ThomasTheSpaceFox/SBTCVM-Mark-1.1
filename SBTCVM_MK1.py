@@ -19,9 +19,11 @@ pygame.font.init()
 #used for TTY
 simplefont = pygame.font.SysFont(None, 16)
 #used for smaller data displays (inst. data etc.)
-smldispfont = pygame.font.SysFont(None, 16)
+#smldispfont = pygame.font.SysFont(None, 16)
+smldispfont = pygame.font.Font("SBTCVMreadout.ttf", 16)
 #used in larger data displays (register displays, etc.)
-lgdispfont = pygame.font.SysFont(None, 20)
+#lgdispfont = pygame.font.SysFont(None, 20)
+lgdispfont = pygame.font.Font("SBTCVMreadout.ttf", 16)
 pixcnt1=40
 pixjmp=14
 USRYN=0
@@ -118,6 +120,7 @@ stopflag=0
 EXECCHANGE=0
 #ROMFILE=open(BOOTUPFILE)
 EXECADDR="------"
+EXECADDRraw=EXECADDR
 REG1="000000"
 REG2="000000"
 print "SBTCVM Mark 1.1 Ready. the VM will now begin."
@@ -131,20 +134,20 @@ while stopflag==0:
 	#these show the instruction and data in the instruction/data box :)
 	insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
 	datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0))
-	screensurf.blit(insttext, (6, 495))
-	screensurf.blit(datatext, (44, 495))
+	screensurf.blit(insttext, (4, 522))
+	screensurf.blit(datatext, (4, 566))
 	#these draw the register displays :)
 	reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0))
 	reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0))
-	screensurf.blit(reg1text, (98, 491))
-	screensurf.blit(reg2text, (189, 491))
+	screensurf.blit(reg1text, (128, 521))
+	screensurf.blit(reg2text, (128, 564))
 	#and here is what draws the ROM address display :)
 	reg2text=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0))
-	screensurf.blit(reg2text, (280, 491))
+	screensurf.blit(reg2text, (249, 564))
 	#and the current rom display :)
-	CURROMTEXT=("ROM " + ROMLAMPFLG)
+	CURROMTEXT=(ROMLAMPFLG)
 	reg2text=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
-	screensurf.blit(reg2text, (371, 491))
+	screensurf.blit(reg2text, (86, 522))
 	#LED LAMPS
 	#CPU
 	screensurf.blit(CPULEDACT, (514, 493))
@@ -224,16 +227,16 @@ while stopflag==0:
 		#print REG1
 		#print REG2
 		#print "bla"
-		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btadd(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6math(libbaltcalc.btadd(REG1, REG2)))
 	#sub both registers, load awnser into REG1
 	elif curinst=="-00-":
-		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btsub(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6math(libbaltcalc.btsub(REG1, REG2)))
 	#mul both registers, load awnser into REG1
 	elif curinst=="-000":
-		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btmul(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6math(libbaltcalc.btmul(REG1, REG2)))
 	#dev both registers, load awnser into REG1
 	elif curinst=="-00+":
-		REG1 = (libSBTCVM.trunkto6(libbaltcalc.btdev(REG1, REG2)))
+		REG1 = (libSBTCVM.trunkto6math(libbaltcalc.btdev(REG1, REG2)))
 	#set REG1
 	elif curinst=="-0+-":
 		REG1 = curdata
@@ -480,20 +483,20 @@ while stopflag==0:
 		#these show the instruction and data in the instruction/data box :)
 		insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
 		datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0))
-		screensurf.blit(insttext, (6, 495))
-		screensurf.blit(datatext, (44, 495))
+		screensurf.blit(insttext, (4, 522))
+		screensurf.blit(datatext, (4, 566))
 		#these draw the register displays :)
 		reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0))
 		reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0))
-		screensurf.blit(reg1text, (98, 491))
-		screensurf.blit(reg2text, (189, 491))
+		screensurf.blit(reg1text, (128, 521))
+		screensurf.blit(reg2text, (128, 564))
 		#and here is what draws the ROM address display :)
 		reg2text=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0))
-		screensurf.blit(reg2text, (280, 491))
+		screensurf.blit(reg2text, (249, 564))
 		#and the current rom display :)
-		CURROMTEXT=("ROM " + ROMLAMPFLG)
+		CURROMTEXT=(ROMLAMPFLG)
 		reg2text=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
-		screensurf.blit(reg2text, (371, 491))
+		screensurf.blit(reg2text, (86, 522))
 		#LED LAMPS
 		#CPU
 		screensurf.blit(CPULEDACT, (514, 493))
@@ -681,11 +684,13 @@ while stopflag==0:
 		stopflag=1
 		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 		abt=libSBTCVM.abtslackline(abt, "End Of Rom.")
-	if EXECADDR=="+------":
+	if EXECADDRraw=="+------":
 		stopflag=1
 		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 		abt=libSBTCVM.abtslackline(abt, "End Of RomBus.")
 	EXECADDR=libbaltcalc.btadd(EXECADDR, "+")
+	EXECADDRraw=EXECADDR
+	EXECADDR=libSBTCVM.trunkto6(EXECADDR)
 	if EXECCHANGE==1:
 		EXECCHANGE=0
 		#print("ding")
@@ -698,20 +703,20 @@ while stopflag==0:
 		#these show the instruction and data in the instruction/data box :)
 		insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
 		datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0))
-		screensurf.blit(insttext, (6, 495))
-		screensurf.blit(datatext, (44, 495))
+		screensurf.blit(insttext, (4, 522))
+		screensurf.blit(datatext, (4, 566))
 		#these draw the register displays :)
 		reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0))
 		reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0))
-		screensurf.blit(reg1text, (98, 491))
-		screensurf.blit(reg2text, (189, 491))
+		screensurf.blit(reg1text, (128, 521))
+		screensurf.blit(reg2text, (128, 564))
 		#and here is what draws the ROM address display :)
 		reg2text=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0))
-		screensurf.blit(reg2text, (280, 491))
+		screensurf.blit(reg2text, (249, 564))
 		#and the current rom display :)
-		CURROMTEXT=("ROM " + ROMLAMPFLG)
+		CURROMTEXT=(ROMLAMPFLG)
 		reg2text=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
-		screensurf.blit(reg2text, (371, 491))
+		screensurf.blit(reg2text, (86, 522))
 		#LED LAMPS
 		screensurf.blit(CPULEDSTANDBY, (514, 493))
 		#STEP

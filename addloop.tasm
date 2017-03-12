@@ -1,0 +1,41 @@
+textstart
+This VM will now count
+from ------ to ++++++
+textstop
+setreg1|------
+setreg2|00000+|loop
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+add
+#dumpreg1
+setreg2|++++++
+gotodataif|>end
+gotodata|>loop
+buzzer|+00000|end
+textstart|000000
+Whelp we are done here :D
+textstop
+stop
